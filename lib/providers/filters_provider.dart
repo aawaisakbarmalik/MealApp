@@ -26,22 +26,22 @@ final filtersProvider =
       (ref) => FilterNotifier(),
     );
 
-final filteredMealsProvider = Provider((ref){
+final filteredMealsProvider = Provider((ref) {
+  final activeFilters=ref.watch(filtersProvider);
+  final meals= ref.watch(mealsProvider);
   return meals.where((meal) {
-      final meals=ref.watch(mealsProvider);
-      final activeFilters = ref.watch(filteredMealsProvider);
-      if (activeFilters[Filters.glutenFree]! && !meal.isGlutenFree) {
-        return false;
-      }
-      if (activeFilters[Filters.lactoseFree]! && !meal.isLactoseFree) {
-        return false;
-      }
-      if (activeFilters[Filters.vegetarian]! && !meal.isVegetarian) {
-        return false;
-      }
-      if (activeFilters[Filters.vegan]! && !meal.isVegan) {
-        return false;
-      }
-      return true;
-    }).toList();
-})
+    if (activeFilters[Filters.glutenFree]! && !meal.isGlutenFree) {
+      return false;
+    }
+    if (activeFilters[Filters.lactoseFree]! && !meal.isLactoseFree) {
+      return false;
+    }
+    if (activeFilters[Filters.vegetarian]! && !meal.isVegetarian) {
+      return false;
+    }
+    if (activeFilters[Filters.vegan]! && !meal.isVegan) {
+      return false;
+    }
+    return true;
+  }).toList();
+});
